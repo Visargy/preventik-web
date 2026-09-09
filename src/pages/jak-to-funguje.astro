@@ -1,0 +1,82 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import VyzvaKAkci from "../components/VyzvaKAkci.astro";
+import Faq from "../components/Faq.astro";
+import { href } from "../lib/site";
+import { kroky, faq } from "../lib/obsah";
+---
+
+<Zaklad
+  titulek="Jak to funguje"
+  popis="Průběh spolupráce od nezávazné poptávky po dodání. Jak funguje vzorek, množstevní ceny a proč jde objednávat celoročně."
+>
+  <HlavaStranky
+    stitek="Spolupráce"
+    nadpis="Od poptávky k hotovým materiálům"
+    uvod="Žádné složité objednávkové formuláře. Napíšete, co chystáte, a zbytek vyřešíme spolu."
+  />
+
+  <Sekce>
+    <ol class="space-y-6">
+      {kroky.map((k) => (
+        <li class="odhal grid gap-4 rounded-[var(--radius-karta)] bg-papir p-6 sm:grid-cols-[auto_1fr] sm:items-start">
+          <div class="font-nadpis text-4xl font-extrabold text-hasici-500">{k.cislo}</div>
+          <div>
+            <h2 class="text-xl font-bold text-policie-800">{k.nazev}</h2>
+            <p class="mt-1 text-inkoust/75">{k.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Sekce>
+
+  <Sekce pozadi="papir" stitek="Vzorky" nadpis="Chci si produkt nejdřív osahat">
+    <div class="prose-web max-w-2xl">
+      <p>
+        U většiny produktů umíme poslat fyzický vzorek. Platí u něj vyšší cena za
+        kus než při běžné objednávce – vyrábí se totiž jednotlivě. Jakmile si
+        produkt objednáte, <strong>cenu vzorku odečteme</strong> od výsledné
+        objednávky.
+      </p>
+      <p>
+        Vzorek posíláme běžně poštou na adresu služebny nebo úřadu. U tiskovin
+        můžeme místo fyzického vzorku poslat grafický náhled s vaším logem.
+      </p>
+    </div>
+  </Sekce>
+
+  <Sekce stitek="Ceny" nadpis="Proč nemáme pevný ceník">
+    <div class="grid gap-8 md:grid-cols-2">
+      <div class="prose-web">
+        <p>
+          Cena závisí na množství, počtu barev potisku, materiálu a termínu.
+          Orientační ceny „od" najdete u každého produktu. Platí jednoduché
+          pravidlo: <strong>čím větší náklad, tím nižší cena za kus.</strong>
+        </p>
+        <p>
+          Konkrétní kalkulaci pošleme obratem po poptávce. Vejdeme se do rozpočtu,
+          který zadáte – nebo rovnou řekneme, že to nejde a proč.
+        </p>
+        <p><a href={href("/cenik")}>Podrobněji na stránce Ceník →</a></p>
+      </div>
+      <div class="rounded-[var(--radius-karta)] border border-policie-100 p-6">
+        <h3 class="font-nadpis font-bold text-policie-800">Objednávejte celoročně</h3>
+        <p class="mt-2 text-sm text-inkoust/75">
+          Nemusíte čekat na začátek školního roku. Vyrábíme po celý rok a mimo
+          sezónu jsme rychlejší. Rozložením objednávek do roku navíc často
+          ušetříte.
+        </p>
+      </div>
+    </div>
+  </Sekce>
+
+  <Sekce pozadi="papir" stitek="Časté dotazy" nadpis="Než se zeptáte">
+    <div class="max-w-3xl">
+      <Faq polozky={faq} />
+    </div>
+  </Sekce>
+
+  <VyzvaKAkci />
+</Zaklad>

@@ -1,0 +1,35 @@
+---
+// Fáze 1: informativní lišta, žádné sledovací skripty se nenačítají.
+// Fáze 2 (po spuštění na doméně): plnohodnotný souhlas dle GDPR + podmíněné načtení analytiky.
+---
+<div
+  id="cookie-lista"
+  hidden
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-policie-200 bg-white p-4 shadow-[0_-8px_30px_-12px_rgba(0,0,0,0.25)]"
+>
+  <div class="obal flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm text-inkoust">
+      Tento náhled webu používá pouze technické cookies nutné pro jeho funkci.
+      Žádné sledování ani reklamní cookies zde neběží.
+    </p>
+    <button id="cookie-ok" class="btn btn-vedlejsi !px-4 !py-2 text-sm whitespace-nowrap">
+      Rozumím
+    </button>
+  </div>
+</div>
+
+<script>
+  const KLIC = "preventik-cookie-ok";
+  const lista = document.getElementById("cookie-lista");
+  try {
+    if (!localStorage.getItem(KLIC)) lista?.removeAttribute("hidden");
+  } catch {
+    lista?.removeAttribute("hidden");
+  }
+  document.getElementById("cookie-ok")?.addEventListener("click", () => {
+    try {
+      localStorage.setItem(KLIC, "1");
+    } catch {}
+    lista?.setAttribute("hidden", "");
+  });
+</script>

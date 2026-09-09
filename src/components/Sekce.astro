@@ -1,0 +1,47 @@
+---
+interface Props {
+  stitek?: string;
+  nadpis?: string;
+  podnadpis?: string;
+  pozadi?: "bila" | "papir" | "modra";
+  trida?: string;
+  stred?: boolean;
+}
+const { stitek, nadpis, podnadpis, pozadi = "bila", trida = "", stred = false } = Astro.props;
+const bg =
+  pozadi === "papir" ? "bg-papir" : pozadi === "modra" ? "bg-policie-800 text-white" : "bg-white";
+---
+<section class:list={[bg, "py-16 md:py-24", trida]}>
+  <div class="obal">
+    {
+      (stitek || nadpis || podnadpis) && (
+        <header class:list={["max-w-2xl", stred && "mx-auto text-center"]}>
+          {stitek && <span class="stitek">{stitek}</span>}
+          {nadpis && (
+            <h2
+              class:list={[
+                "mt-2 text-3xl font-extrabold md:text-4xl",
+                pozadi === "modra" && "!text-white",
+              ]}
+            >
+              {nadpis}
+            </h2>
+          )}
+          {podnadpis && (
+            <p
+              class:list={[
+                "mt-4 text-lg",
+                pozadi === "modra" ? "text-policie-100" : "text-inkoust/80",
+              ]}
+            >
+              {podnadpis}
+            </p>
+          )}
+        </header>
+      )
+    }
+    <div class:list={[(stitek || nadpis || podnadpis) && "mt-12"]}>
+      <slot />
+    </div>
+  </div>
+</section>

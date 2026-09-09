@@ -1,0 +1,23 @@
+---
+interface Props {
+  polozky: { otazka: string; odpoved: string }[];
+}
+const { polozky } = Astro.props;
+---
+<div class="divide-y divide-policie-100 rounded-[var(--radius-karta)] border border-policie-100 bg-white">
+  {
+    polozky.map((p, i) => (
+      <details class="group" name="faq" open={i === 0}>
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-nadpis text-lg font-semibold text-policie-800 [&::-webkit-details-marker]:hidden">
+          {p.otazka}
+          <span class="shrink-0 text-hasici-500 transition-transform group-open:rotate-45" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+          </span>
+        </summary>
+        <div class="px-5 pb-5 text-inkoust/80">{p.odpoved}</div>
+      </details>
+    ))
+  }
+</div>

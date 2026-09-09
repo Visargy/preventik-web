@@ -1,0 +1,88 @@
+---
+import { getCollection } from "astro:content";
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import VyzvaKAkci from "../components/VyzvaKAkci.astro";
+import { kategorie, href } from "../lib/site";
+
+const vsechny = (await getCollection("produkty")).sort(
+  (a, b) => a.data.poradi - b.data.poradi,
+);
+---
+
+<Zaklad
+  titulek="Ceník"
+  popis="Orientační ceny produktů pro prevenci, cena vzorků a princip množstevních slev. Konečná nabídka je vždy individuální."
+>
+  <HlavaStranky
+    stitek="Ceník"
+    nadpis="Orientační ceny a jak se počítají"
+    uvod="Konečná cena je vždy individuální podle množství, potisku, materiálu a termínu. Tady je přehled, ze kterého vyjdeme."
+  />
+
+  <Sekce>
+    <div class="grid gap-6 md:grid-cols-3">
+      {[
+        { h: "Množství", t: "Hlavní faktor. U drobností se cena za kus mezi 200 a 2000 kusy klidně sníží na polovinu." },
+        { h: "Potisk a barvy", t: "Jednobarevný potisk je nejlevnější. Plnobarevný tisk a potisk kolem dokola stojí víc." },
+        { h: "Termín", t: "Standardní termín je v ceně. Expres s přednostní výrobou je za příplatek." },
+      ].map((b) => (
+        <div class="rounded-[var(--radius-karta)] bg-papir p-6">
+          <h3 class="text-lg font-bold text-policie-800">{b.h}</h3>
+          <p class="mt-2 text-sm text-inkoust/75">{b.t}</p>
+        </div>
+      ))}
+    </div>
+  </Sekce>
+
+  <Sekce pozadi="papir" nadpis="Orientační ceny podle kategorií">
+    <div class="overflow-x-auto">
+      <table class="w-full min-w-[40rem] border-collapse text-left text-sm">
+        <thead>
+          <tr class="border-b-2 border-policie-200 font-nadpis text-policie-800">
+            <th class="py-3 pr-4">Produkt</th>
+            <th class="py-3 pr-4">Kategorie</th>
+            <th class="py-3 pr-4">Cena od</th>
+            <th class="py-3 pr-4">Min. množství</th>
+            <th class="py-3">Vzorek</th>
+          </tr>
+        </thead>
+        <tbody>
+          {vsechny.map((p) => {
+            const k = kategorie.find((x) => x.slug === p.data.kategorie)!;
+            return (
+              <tr class="border-b border-policie-100">
+                <td class="py-3 pr-4 font-semibold">
+                  <a href={href(`/produkt/${p.id}`)} class="hover:text-hasici-600">{p.data.nazev}</a>
+                </td>
+                <td class="py-3 pr-4 text-inkoust/70">{k.nazev}</td>
+                <td class="py-3 pr-4">{p.data.cenaOd ? `${p.data.cenaOd} Kč / ${p.data.jednotka}` : "dle zadání"}</td>
+                <td class="py-3 pr-4">{p.data.minMnozstvi ? `${p.data.minMnozstvi} ${p.data.jednotka}` : "—"}</td>
+                <td class="py-3">{p.data.vzorekCena ? `${p.data.vzorekCena} Kč` : "—"}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-4 text-sm text-inkoust/60">
+      Ceny jsou orientační, bez DPH a bez dopravy, pro fázi náhledu webu vymyšlené.
+      Skutečnou nabídku pošleme do dvou pracovních dnů od poptávky.
+    </p>
+  </Sekce>
+
+  <Sekce nadpis="Sleva za větší objednávku i za sdružení měst">
+    <div class="prose-web max-w-2xl">
+      <p>
+        Když se domluví víc měst v regionu na společném motivu, dostanou všichni
+        cenu jako za jeden velký náklad. Rádi to zkoordinujeme.
+      </p>
+      <p>
+        Cenu vzorku vždy odečítáme od následné objednávky stejného produktu.
+      </p>
+    </div>
+  </Sekce>
+
+  <VyzvaKAkci nadpis="Chcete přesnou cenu pro vaši akci?" text="Napište množství a termín. Kalkulaci pošleme obratem." />
+</Zaklad>

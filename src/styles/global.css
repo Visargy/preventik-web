@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* Self-hostované písmo (bez Google CDN kvůli GDPR) */
+@import "@fontsource/montserrat/400.css";
+@import "@fontsource/montserrat/600.css";
+@import "@fontsource/montserrat/700.css";
+@import "@fontsource/montserrat/800.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+
+@theme {
+  /* Barvy — modrá jako městská policie ČR, červená jako hasiči ČR */
+  --color-policie-50: #eef4fb;
+  --color-policie-100: #d6e4f5;
+  --color-policie-200: #aecbe9;
+  --color-policie-300: #7ba7d8;
+  --color-policie-400: #4a7fc0;
+  --color-policie-500: #2c5fa3;
+  --color-policie-600: #1f4f9c;
+  --color-policie-700: #16386e;
+  --color-policie-800: #122c54;
+  --color-policie-900: #0e2140;
+
+  --color-hasici-50: #fdecee;
+  --color-hasici-100: #fbd4d9;
+  --color-hasici-200: #f4a6b0;
+  --color-hasici-400: #e5384c;
+  --color-hasici-500: #d3122a;
+  --color-hasici-600: #b30f24;
+  --color-hasici-700: #8f0c1d;
+
+  --color-papir: #f6f7f9;
+  --color-inkoust: #1a1d21;
+
+  --font-nadpis: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-text: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-karta: 14px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    font-family: var(--font-text);
+    color: var(--color-inkoust);
+    background: #fff;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-nadpis);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--color-policie-800);
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-policie-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  ::selection {
+    background: var(--color-policie-200);
+  }
+}
+
+@layer components {
+  .obal {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-nadpis);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.85rem 1.6rem;
+    border-radius: 999px;
+    transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    text-align: center;
+    cursor: pointer;
+  }
+  .btn-hlavni {
+    background: var(--color-hasici-500);
+    color: #fff;
+    box-shadow: 0 8px 20px -8px var(--color-hasici-500);
+  }
+  .btn-hlavni:hover {
+    background: var(--color-hasici-600);
+    transform: translateY(-1px);
+  }
+  .btn-vedlejsi {
+    background: var(--color-policie-700);
+    color: #fff;
+  }
+  .btn-vedlejsi:hover {
+    background: var(--color-policie-800);
+    transform: translateY(-1px);
+  }
+  .btn-obrys {
+    border: 2px solid var(--color-policie-700);
+    color: var(--color-policie-700);
+    background: transparent;
+  }
+  .btn-obrys:hover {
+    background: var(--color-policie-50);
+  }
+  .stitek {
+    display: inline-block;
+    font-family: var(--font-nadpis);
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-hasici-600);
+  }
+  .prose-web p { margin-block: 0.9rem; }
+  .prose-web h2 { margin-top: 2.4rem; margin-bottom: 0.8rem; font-size: 1.65rem; }
+  .prose-web h3 { margin-top: 1.6rem; margin-bottom: 0.5rem; font-size: 1.2rem; }
+  .prose-web ul { list-style: disc; padding-left: 1.4rem; margin-block: 0.9rem; }
+  .prose-web li { margin-block: 0.35rem; }
+}
+
+/* Jemné odhalení při scrollu */
+@media (prefers-reduced-motion: no-preference) {
+  .odhal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .odhal.videt {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Měkká ochrana ukázek obsahu proti kopírování */
+.chraneno img {
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: none;
+}

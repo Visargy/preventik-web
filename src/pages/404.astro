@@ -1,0 +1,19 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import { href } from "../lib/site";
+---
+
+<Zaklad titulek="Stránka nenalezena" popis="Požadovaná stránka neexistuje.">
+  <section class="obal py-24 text-center">
+    <span class="stitek">Chyba 404</span>
+    <h1 class="mt-2 text-4xl font-extrabold">Tuhle stránku jsme nenašli</h1>
+    <p class="mx-auto mt-4 max-w-md text-inkoust/70">
+      Odkaz je nejspíš starý nebo překlepnutý. Zkuste to z úvodní stránky nebo
+      přehledu produktů.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href={href("/")} class="btn btn-hlavni">Na úvod</a>
+      <a href={href("/produkty")} class="btn btn-obrys">Přehled produktů</a>
+    </div>
+  </section>
+</Zaklad>

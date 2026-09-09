@@ -1,0 +1,25 @@
+---
+import { href } from "../lib/site";
+interface Props {
+  slug: string;
+  nazev: string;
+  strucne: string;
+  barva?: string;
+  pocet?: number;
+}
+const { slug, nazev, strucne, barva = "policie", pocet } = Astro.props;
+const akcent = barva === "hasici" ? "border-hasici-500" : "border-policie-600";
+---
+<a
+  href={href(`/produkty/${slug}`)}
+  class:list={[
+    "odhal group flex flex-col rounded-[var(--radius-karta)] border-l-4 bg-white p-6 shadow-sm ring-1 ring-policie-100 transition-transform hover:-translate-y-1 hover:shadow-lg",
+    akcent,
+  ]}
+>
+  <h3 class="text-xl font-bold text-policie-800 group-hover:text-hasici-600">{nazev}</h3>
+  <p class="mt-2 flex-1 text-sm text-inkoust/75">{strucne}</p>
+  <span class="mt-4 font-nadpis text-sm font-bold text-hasici-600">
+    Prohlédnout {pocet ? `(${pocet})` : ""} →
+  </span>
+</a>

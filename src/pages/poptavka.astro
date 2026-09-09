@@ -1,0 +1,161 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import { kategorie, firma, href } from "../lib/site";
+---
+
+<Zaklad
+  titulek="Nezávazná poptávka"
+  popis="Napište, jakou besedu nebo akci chystáte. Doporučíme, co se osvědčilo, a pošleme cenovou nabídku do dvou pracovních dnů."
+>
+  <HlavaStranky
+    stitek="Poptávka"
+    nadpis="Řekněte nám, co chystáte"
+    uvod="Formulář je nezávazný. Ozveme se do dvou pracovních dnů s doporučením a cenovou nabídkou. Bez tlaku na objednávku."
+  />
+
+  <Sekce>
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+      <form id="poptavka-form" class="grid gap-5" novalidate>
+        <div class="rounded-[var(--radius-karta)] bg-papir p-4 text-sm text-inkoust/70">
+          <strong>Náhledová verze webu.</strong> Formulář zatím data neodesílá – ve
+          finální verzi poputují na {firma.email} i s nahraným logem. Teď prosím
+          volejte na {firma.telefon}.
+        </div>
+
+        <fieldset class="grid gap-5">
+          <legend class="font-nadpis text-lg font-bold text-policie-800">Kontakt</legend>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="grid gap-1.5 text-sm font-semibold">
+              Jméno a příjmení *
+              <input required name="jmeno" type="text" class="pole" />
+            </label>
+            <label class="grid gap-1.5 text-sm font-semibold">
+              Město / městská policie / úřad *
+              <input required name="urad" type="text" class="pole" />
+            </label>
+            <label class="grid gap-1.5 text-sm font-semibold">
+              E‑mail *
+              <input required name="email" type="email" class="pole" />
+            </label>
+            <label class="grid gap-1.5 text-sm font-semibold">
+              Telefon
+              <input name="telefon" type="tel" class="pole" />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="grid gap-5">
+          <legend class="font-nadpis text-lg font-bold text-policie-800">O co máte zájem</legend>
+          <div class="grid gap-2 sm:grid-cols-2">
+            {kategorie.map((k) => (
+              <label class="flex items-center gap-2 text-sm">
+                <input type="checkbox" name="kategorie" value={k.nazev} class="h-4 w-4" />
+                {k.nazev}
+              </label>
+            ))}
+          </div>
+          <label class="grid gap-1.5 text-sm font-semibold">
+            Konkrétní produkt (nepovinné)
+            <input name="produkt" type="text" class="pole" placeholder="např. Pexeso Poznej značku" />
+          </label>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <label class="grid gap-1.5 text-sm font-semibold">
+              Přibližné množství
+              <input name="mnozstvi" type="text" class="pole" placeholder="např. 300 ks" />
+            </label>
+            <label class="grid gap-1.5 text-sm font-semibold">
+              Termín akce
+              <input name="termin" type="text" class="pole" placeholder="např. konec května" />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="grid gap-3">
+          <legend class="font-nadpis text-lg font-bold text-policie-800">Logo města / městské policie</legend>
+          <p class="text-sm text-inkoust/70">
+            Nahrajte znak města nebo městské policie a případně kontaktní údaje,
+            které mají být na produktech. Ideálně vektor (SVG, AI, PDF), stačí i
+            obrázek – logo umíme překreslit.
+          </p>
+          <input name="logo" type="file" accept="image/*,.pdf,.ai,.eps,.svg" class="text-sm" />
+        </fieldset>
+
+        <label class="grid gap-1.5 text-sm font-semibold">
+          Poznámka
+          <textarea name="poznamka" rows="4" class="pole" placeholder="Popište besedu, věk dětí, rozpočet, cokoli důležitého."></textarea>
+        </label>
+
+        <label class="flex items-start gap-2 text-sm">
+          <input required type="checkbox" name="souhlas" class="mt-1 h-4 w-4" />
+          <span>
+            Souhlasím se zpracováním údajů za účelem vyřízení poptávky dle
+            <a href={href("/gdpr")} class="text-policie-700 underline">zásad ochrany osobních údajů</a>. *
+          </span>
+        </label>
+
+        <div>
+          <button type="submit" class="btn btn-hlavni">Odeslat nezávaznou poptávku</button>
+        </div>
+
+        <p id="poptavka-vysledek" role="status" hidden class="rounded-[var(--radius-karta)] bg-policie-50 p-4 text-sm text-policie-800"></p>
+      </form>
+
+      <aside class="h-fit rounded-[var(--radius-karta)] border border-policie-100 bg-white p-6">
+        <h2 class="font-nadpis text-lg font-bold text-policie-800">Co bude dál</h2>
+        <ol class="mt-3 space-y-3 text-sm text-inkoust/75">
+          <li><strong>Do 2 pracovních dnů</strong> se ozveme telefonem nebo e‑mailem.</li>
+          <li>Doporučíme, co se osvědčilo v jiných městech.</li>
+          <li>Pošleme cenovou nabídku a případně vzorek.</li>
+          <li>Cenu vzorku pak odečteme od objednávky.</li>
+        </ol>
+        <hr class="my-5 border-policie-100" />
+        <p class="text-sm text-inkoust/75">
+          Raději hned? Volejte
+          <a href={firma.telefonHref} class="font-bold text-policie-800">{firma.telefon}</a>
+          (i WhatsApp).
+        </p>
+      </aside>
+    </div>
+  </Sekce>
+</Zaklad>
+
+<style>
+  .pole {
+    border: 1px solid var(--color-policie-200);
+    border-radius: 10px;
+    padding: 0.6rem 0.75rem;
+    font: inherit;
+    background: #fff;
+    font-weight: 400;
+  }
+  .pole:focus-visible {
+    border-color: var(--color-policie-500);
+  }
+</style>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const p = params.get("produkt");
+  if (p) {
+    const el = document.querySelector<HTMLInputElement>('input[name="produkt"]');
+    if (el) el.value = p;
+  }
+
+  const form = document.getElementById("poptavka-form") as HTMLFormElement | null;
+  const vysledek = document.getElementById("poptavka-vysledek");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    if (vysledek) {
+      vysledek.hidden = false;
+      vysledek.textContent =
+        "Děkujeme. Toto je náhledová verze webu, formulář se zatím neodesílá. Ve finální verzi vám přijde potvrzení na e‑mail. Prozatím nás prosím kontaktujte telefonicky.";
+      vysledek.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  });
+</script>

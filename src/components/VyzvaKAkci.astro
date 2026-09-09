@@ -1,0 +1,28 @@
+---
+import { href, firma } from "../lib/site";
+interface Props {
+  nadpis?: string;
+  text?: string;
+}
+const {
+  nadpis = "Nevíte si rady s výběrem? Napište nám, co chystáte.",
+  text = "Popište besedu nebo akci a my doporučíme, co se osvědčilo kolegům v jiných městech. Nezávazně a bez tlaku na objednávku.",
+} = Astro.props;
+---
+<section class="py-16 md:py-20">
+  <div class="obal">
+    <div
+      class="odhal overflow-hidden rounded-[calc(var(--radius-karta)+6px)] bg-policie-800 px-6 py-12 text-center md:px-16 md:py-16"
+      style="background-image:linear-gradient(135deg,var(--color-policie-800),var(--color-policie-600));"
+    >
+      <h2 class="mx-auto max-w-2xl text-2xl font-extrabold !text-white md:text-3xl">{nadpis}</h2>
+      <p class="mx-auto mt-4 max-w-xl text-policie-100">{text}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href={href("/poptavka")} class="btn btn-hlavni">Nezávazná poptávka</a>
+        <a href={firma.telefonHref} class="btn btn-obrys !border-white !text-white hover:!bg-white/10">
+          {firma.telefon}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

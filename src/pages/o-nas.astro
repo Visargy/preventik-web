@@ -1,0 +1,85 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import Foto from "../components/Foto.astro";
+import VyzvaKAkci from "../components/VyzvaKAkci.astro";
+import { firma } from "../lib/site";
+import { cisla } from "../lib/obsah";
+---
+
+<Zaklad
+  titulek="O nás"
+  popis={`${firma.provozovatel} vyrábí a vyvíjí vzdělávací a reklamní předměty pro prevenci od roku ${firma.odRoku}. Sídlíme v ${firma.adresa}.`}
+>
+  <HlavaStranky
+    stitek="O nás"
+    nadpis="Reklamní výroba, která rozumí besedám s dětmi"
+    uvod={`${firma.provozovatel} působí od roku ${firma.odRoku} v ${firma.adresa}. Máme široké portfolio reklamní výroby, ale tenhle web je jen o jednom: o materiálech pro preventivní programy městské policie a měst.`}
+  />
+
+  <Sekce>
+    <div class="grid items-center gap-10 md:grid-cols-2">
+      <Foto popis="Fotka provozu: tiskárna a dílna, u stolu člověk kontroluje čerstvě vytištěné archy omalovánek." pomer="4/3" />
+      <div class="prose-web">
+        <h2>Jak jsme se k prevenci dostali</h2>
+        <p>
+          Roky děláme potisk, tiskoviny, razítka a reklamní předměty pro firmy i
+          města. Když nás jeden městský strážník poprosil o „něco jiného než
+          pořád ten samý leták", vznikly první vlastní omalovánky. Ukázalo se, že
+          přesně tohle preventisté sháněli a nikde to nebylo.
+        </p>
+        <h2>Co děláme dnes</h2>
+        <p>
+          Vyvíjíme vlastní vzdělávací tiskoviny a hry, tiskneme je u nás a
+          doplňujeme reflexními prvky a odměnami do soutěží. Všechno se dá označit
+          znakem konkrétního města a jeho městské policie.
+        </p>
+      </div>
+    </div>
+  </Sekce>
+
+  <section class="bg-policie-800 py-14 text-white">
+    <div class="obal grid grid-cols-2 gap-8 text-center md:grid-cols-4">
+      {cisla.map((c) => (
+        <div>
+          <div class="font-nadpis text-3xl font-extrabold text-white md:text-4xl">{c.hodnota}</div>
+          <div class="mt-1 text-sm text-policie-200">{c.popis}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Sekce stitek="V co věříme" nadpis="Tři věci, na kterých si zakládáme">
+    <div class="grid gap-6 md:grid-cols-3">
+      {[
+        { h: "Vlastní nápad", t: "Klíčové materiály vymýšlíme sami a máme k nim autorská práva. Nekopírujeme, co už je na trhu." },
+        { h: "Ověřeno na dětech", t: "Než něco nabídneme, projde to besedami ve školách a školkách. Co děti nebaví, dál nejde." },
+        { h: "Termíny včas", t: "Slíbený termín je závazek, ne odhad. Preventivní akce mají pevné datum a my to respektujeme." },
+      ].map((b) => (
+        <div class="rounded-[var(--radius-karta)] border-t-4 border-hasici-500 bg-papir p-6">
+          <h3 class="text-lg font-bold text-policie-800">{b.h}</h3>
+          <p class="mt-2 text-sm text-inkoust/75">{b.t}</p>
+        </div>
+      ))}
+    </div>
+  </Sekce>
+
+  <Sekce pozadi="papir" stitek="Fakta" nadpis="Kdo za webem stojí">
+    <dl class="grid max-w-2xl gap-x-8 gap-y-3 text-sm sm:grid-cols-2">
+      <dt class="text-inkoust/55">Provozovatel</dt><dd class="font-semibold">{firma.provozovatel}</dd>
+      <dt class="text-inkoust/55">IČO</dt><dd class="font-semibold">{firma.ico}</dd>
+      <dt class="text-inkoust/55">Kontaktní osoba</dt><dd class="font-semibold">{firma.osoba}</dd>
+      <dt class="text-inkoust/55">Telefon</dt><dd class="font-semibold">{firma.telefon} (i WhatsApp)</dd>
+      <dt class="text-inkoust/55">E‑mail</dt><dd class="font-semibold">{firma.email}</dd>
+      <dt class="text-inkoust/55">Sídlo</dt><dd class="font-semibold">{firma.adresa}</dd>
+      <dt class="text-inkoust/55">Působnost</dt><dd class="font-semibold">celá ČR a Slovensko</dd>
+    </dl>
+    <p class="mt-6 max-w-2xl text-sm text-inkoust/60">
+      Původní reklamní výrobu najdete na webu {firma.puvodniWeb}. Tento web se
+      věnuje výhradně produktům pro prevenci.
+    </p>
+  </Sekce>
+
+  <VyzvaKAkci />
+</Zaklad>

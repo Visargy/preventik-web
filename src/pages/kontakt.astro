@@ -1,0 +1,57 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import { firma, href } from "../lib/site";
+---
+
+<Zaklad
+  titulek="Kontakt"
+  popis={`Spojte se s námi: ${firma.telefon}, ${firma.email}. Sídlíme v ${firma.adresa}, dodáváme po celé ČR i na Slovensko.`}
+>
+  <HlavaStranky stitek="Kontakt" nadpis="Ozvěte se, jak vám to vyhovuje" />
+
+  <Sekce>
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        <h2 class="font-nadpis text-xl font-bold text-policie-800">Přímé spojení</h2>
+        <ul class="mt-4 space-y-4 text-lg">
+          <li>
+            <span class="block text-sm text-inkoust/55">Telefon a WhatsApp</span>
+            <a href={firma.telefonHref} class="font-nadpis font-bold text-policie-800 hover:text-hasici-600">{firma.telefon}</a>
+          </li>
+          <li>
+            <span class="block text-sm text-inkoust/55">E‑mail</span>
+            <a href={`mailto:${firma.email}`} class="font-nadpis font-bold text-policie-800 hover:text-hasici-600">{firma.email}</a>
+          </li>
+          <li>
+            <span class="block text-sm text-inkoust/55">Kontaktní osoba</span>
+            <span class="font-semibold">{firma.osoba}</span>
+          </li>
+          <li>
+            <span class="block text-sm text-inkoust/55">Sídlo</span>
+            <span class="font-semibold">{firma.provozovatel}, {firma.adresa}</span><br />
+            <span class="text-sm text-inkoust/60">IČO {firma.ico}</span>
+          </li>
+        </ul>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={href("/poptavka")} class="btn btn-hlavni">Nezávazná poptávka</a>
+          <a href={firma.whatsappHref} class="btn btn-obrys">Napsat na WhatsApp</a>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-nadpis text-xl font-bold text-policie-800">Kde nás najdete</h2>
+        <div class="mt-4 flex aspect-[4/3] items-center justify-center rounded-[var(--radius-karta)] border border-dashed border-policie-200 bg-papir p-6 text-center text-sm text-inkoust/50">
+          Mapa se sídlem v obci {firma.adresa}<br />
+          <span class="text-xs">(vloží se ve finální verzi – OpenStreetMap nebo Mapy.cz bez sledovacích cookies)</span>
+        </div>
+        <p class="mt-4 text-sm text-inkoust/70">
+          Osobní schůzku po domluvě rádi domluvíme, běžně ale všechno zvládneme
+          po telefonu a e‑mailem.
+        </p>
+      </div>
+    </div>
+  </Sekce>
+</Zaklad>

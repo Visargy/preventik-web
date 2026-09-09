@@ -1,0 +1,98 @@
+---
+import "../styles/global.css";
+import Hlavicka from "../components/Hlavicka.astro";
+import Paticka from "../components/Paticka.astro";
+import CookieLista from "../components/CookieLista.astro";
+import { firma, href } from "../lib/site";
+
+interface Props {
+  titulek: string;
+  popis: string;
+  obrazekOG?: string;
+}
+const { titulek, popis } = Astro.props;
+const plnyTitulek =
+  titulek === "domov"
+    ? `${firma.znackaDlouha} – vzdělávací a reklamní předměty pro prevenci`
+    : `${titulek} | ${firma.znacka}`;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: `${firma.znacka} (${firma.provozovatel})`,
+  legalName: firma.provozovatel,
+  url: canonical,
+  telephone: firma.telefon,
+  email: firma.email,
+  foundingDate: String(firma.odRoku),
+  areaServed: ["CZ", "SK"],
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: firma.adresa,
+    addressCountry: "CZ",
+  },
+  description:
+    "Vývoj a výroba vzdělávacích tiskovin, her a reklamních předmětů pro preventivní programy městské policie a měst.",
+};
+---
+
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
+    <title>{plnyTitulek}</title>
+    <meta name="description" content={popis} />
+    <link rel="canonical" href={canonical} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex,nofollow" />
+    <!-- noindex: dočasný náhled na GitHub Pages. Po spuštění na preventik.cz změnit na index,follow. -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={firma.znacka} />
+    <meta property="og:title" content={plnyTitulek} />
+    <meta property="og:description" content={popis} />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta name="theme-color" content="#16386e" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a
+      href="#obsah"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-policie-700 focus:px-4 focus:py-2 focus:text-white"
+    >
+      Přeskočit na obsah
+    </a>
+    <Hlavicka />
+    <main id="obsah">
+      <slot />
+    </main>
+    <Paticka />
+    <CookieLista />
+
+    <script>
+      // Jemné odhalení sekcí při scrollu (respektuje prefers-reduced-motion přes CSS).
+      const prvky = document.querySelectorAll<HTMLElement>(".odhal");
+      if ("IntersectionObserver" in window && prvky.length) {
+        const io = new IntersectionObserver(
+          (zaznamy) => {
+            for (const z of zaznamy) {
+              if (z.isIntersecting) {
+                z.target.classList.add("videt");
+                io.unobserve(z.target);
+              }
+            }
+          },
+          { rootMargin: "0px 0px -10% 0px" },
+        );
+        prvky.forEach((p) => io.observe(p));
+      } else {
+        prvky.forEach((p) => p.classList.add("videt"));
+      }
+    </script>
+  </body>
+</html>

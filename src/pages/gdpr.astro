@@ -1,0 +1,66 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import { firma } from "../lib/site";
+---
+
+<Zaklad
+  titulek="Zásady ochrany osobních údajů"
+  popis="Jak nakládáme s osobními údaji z poptávkového formuláře a z komunikace."
+>
+  <HlavaStranky stitek="Právní informace" nadpis="Zásady ochrany osobních údajů" />
+
+  <Sekce>
+    <div class="prose-web max-w-2xl">
+      <p class="rounded-[var(--radius-karta)] bg-papir p-4 text-sm">
+        <strong>Pracovní verze pro náhled webu.</strong> Finální znění připraví
+        provozovatel podle skutečného rozsahu zpracování (formulář, analytika,
+        newsletter) před spuštěním na doméně.
+      </p>
+
+      <h2>1. Správce údajů</h2>
+      <p>
+        {firma.provozovatel}, IČO {firma.ico}, {firma.adresa}. Kontakt:
+        {firma.email}, {firma.telefon}.
+      </p>
+
+      <h2>2. Jaké údaje zpracováváme</h2>
+      <ul>
+        <li>Údaje z poptávkového formuláře: jméno, název úřadu / městské policie, e‑mail, telefon, obsah zprávy a nahrané soubory (logo).</li>
+        <li>Údaje z e‑mailové a telefonické komunikace.</li>
+        <li>Technické cookies nutné pro provoz webu.</li>
+      </ul>
+
+      <h2>3. Účel a právní základ</h2>
+      <p>
+        Údaje zpracováváme za účelem vyřízení poptávky a přípravy nabídky (jednání
+        o smlouvě), případně plnění smlouvy a zákonných povinností.
+      </p>
+
+      <h2>4. Doba uchování</h2>
+      <p>
+        Poptávky, které nevedou k objednávce, uchováváme nejdéle 12 měsíců. Údaje
+        k realizovaným zakázkám po dobu danou zákonem.
+      </p>
+
+      <h2>5. Předání dalším stranám</h2>
+      <p>
+        Údaje nepředáváme třetím stranám mimo dodavatele nezbytné pro realizaci
+        zakázky (např. přepravce). Nepředáváme je mimo EU.
+      </p>
+
+      <h2>6. Vaše práva</h2>
+      <p>
+        Máte právo na přístup k údajům, opravu, výmaz, omezení zpracování, námitku
+        a podání stížnosti u Úřadu pro ochranu osobních údajů.
+      </p>
+
+      <h2>7. Cookies</h2>
+      <p>
+        Náhledová verze webu používá pouze technické cookies. Po spuštění na
+        doméně bude nasazena analytika s předchozím souhlasem.
+      </p>
+    </div>
+  </Sekce>
+</Zaklad>

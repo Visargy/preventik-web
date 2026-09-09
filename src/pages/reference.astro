@@ -1,0 +1,70 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import Foto from "../components/Foto.astro";
+import VyzvaKAkci from "../components/VyzvaKAkci.astro";
+import { reference } from "../lib/obsah";
+---
+
+<Zaklad
+  titulek="Reference"
+  popis="Zkušenosti preventistů městské policie a měst, která u nás objednala materiály pro besedy s dětmi. Případové studie před a po."
+>
+  <HlavaStranky
+    stitek="Reference"
+    nadpis="Co říkají města, která u nás objednala"
+    uvod="Ukázky spolupráce jsou zatím anonymizované. Konkrétní jména, města a loga doplníme po jejich souhlasu ve finální verzi webu."
+  />
+
+  <Sekce>
+    <div class="grid gap-6 md:grid-cols-3">
+      {reference.map((r) => (
+        <figure class="flex flex-col rounded-[var(--radius-karta)] bg-papir p-6">
+          <blockquote class="flex-1 text-inkoust/85">„{r.text}"</blockquote>
+          <figcaption class="mt-4 text-sm">
+            <span class="font-nadpis font-bold text-policie-800">{r.kdo}</span><br />
+            <span class="text-inkoust/60">{r.mesto}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </Sekce>
+
+  <Sekce pozadi="papir" stitek="Případová studie" nadpis="Před a po: beseda pro druhé třídy">
+    <div class="grid gap-8 md:grid-cols-2">
+      <div>
+        <span class="stitek">Předtím</span>
+        <Foto popis="Stůl s hromadou stejných černobílých letáků od různých institucí." pomer="4/3" trida="mt-2" />
+        <p class="mt-3 text-sm text-inkoust/75">
+          Preventista rozdával kopírované letáky. Děti je většinou nechaly ve
+          třídě, rodiče je nikdy neviděli.
+        </p>
+      </div>
+      <div>
+        <span class="stitek">Potom</span>
+        <Foto popis="Děti si domů odnášejí barevné omalovánky, reflexní náramek a kartičku „vysvědčení prevenťáka“." pomer="4/3" trida="mt-2" />
+        <p class="mt-3 text-sm text-inkoust/75">
+          Sada s logem města: omalovánky, reflexní náramek a kartička s pochvalou.
+          Podle učitelek si o tom děti povídaly ještě týden.
+        </p>
+      </div>
+    </div>
+    <p class="mt-6 text-sm text-inkoust/55">Ilustrační případová studie pro náhled webu.</p>
+  </Sekce>
+
+  <Sekce stitek="Sociální důkaz" nadpis="Spolupracujeme s městy po celé ČR">
+    <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div class="flex aspect-[3/2] items-center justify-center rounded-lg border border-dashed border-policie-200 bg-white text-center text-xs text-inkoust/40">
+          logo města {i + 1}
+        </div>
+      ))}
+    </div>
+    <p class="mt-4 text-sm text-inkoust/55">
+      Místo pro loga měst a městských policií, se kterými spolupracujeme (doplní se po souhlasu).
+    </p>
+  </Sekce>
+
+  <VyzvaKAkci />
+</Zaklad>

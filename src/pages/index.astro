@@ -1,0 +1,199 @@
+---
+import { getCollection } from "astro:content";
+import Zaklad from "../layouts/Zaklad.astro";
+import Sekce from "../components/Sekce.astro";
+import Foto from "../components/Foto.astro";
+import KartaKategorie from "../components/KartaKategorie.astro";
+import VyzvaKAkci from "../components/VyzvaKAkci.astro";
+import Faq from "../components/Faq.astro";
+import { kategorie, href, firma, slogan } from "../lib/site";
+import { kroky, cisla, reference, faq } from "../lib/obsah";
+
+const vsechny = await getCollection("produkty");
+const pocet = (slug: string) => vsechny.filter((p) => p.data.kategorie === slug).length;
+const doporucene = vsechny.filter((p) => p.data.doporucujeme).slice(0, 3);
+---
+
+<Zaklad
+  titulek="domov"
+  popis="Vyvíjíme a vyrábíme vzdělávací tiskoviny, hry a reklamní předměty pro preventivní programy městské policie a měst. Omalovánky, pexesa, reflexní prvky i odměny do soutěží – s logem vašeho města."
+>
+  <!-- HERO -->
+  <section class="bg-papir">
+    <div class="obal grid items-center gap-12 py-14 md:grid-cols-2 md:py-20">
+      <div>
+        <span class="stitek">Pro preventisty městské policie a měst</span>
+        <h1 class="mt-3 text-4xl font-extrabold leading-[1.1] md:text-[3.25rem]">
+          Materiály pro besedy s dětmi, které si <span class="text-hasici-500">opravdu odnesou domů</span>
+        </h1>
+        <p class="mt-5 max-w-xl text-lg text-inkoust/80">
+          {slogan} Vyvíjíme a tiskneme vlastní omalovánky, hry a reflexní prvky –
+          s logem vašeho města a bez toho, abyste cokoli vymýšleli.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={href("/poptavka")} class="btn btn-hlavni">Nezávazná poptávka</a>
+          <a href={href("/produkty")} class="btn btn-obrys">Prohlédnout produkty</a>
+        </div>
+        <p class="mt-4 text-sm text-inkoust/60">
+          Vyrábíme od roku {firma.odRoku} · dodáváme po celé ČR i na Slovensko · voláme zpět do 2 pracovních dnů
+        </p>
+      </div>
+      <Foto
+        popis="Hromadná fotka: skupina dětí ve třídě drží omalovánky, pexesa a reflexní vesty a směje se do foťáku."
+        pomer="4/3"
+      />
+    </div>
+  </section>
+
+  <!-- PROBLÉM → ŘEŠENÍ -->
+  <Sekce
+    stitek="Znáte to?"
+    nadpis="Hledáte něco, co děti zaujme víc než další leták"
+    podnadpis="Nevíte přesně, co potřebujete – ale poznáte to, až to uvidíte. Přesně pro tenhle okamžik je tenhle web."
+  >
+    <div class="grid gap-6 md:grid-cols-3">
+      {[
+        {
+          h: "Pořád stejné materiály",
+          t: "Běžné letáky se roky nemění a děti je cestou ze školy zahodí. Naše tiskoviny jsou nové, vlastní a děti u nich stráví čas.",
+        },
+        {
+          h: "Nemáte kapacitu nic vyvíjet",
+          t: "Nemusíte. Přinesete téma a rozpočet, my doporučíme, co zabralo kolegům jinde, a připravíme grafiku s vaším logem.",
+        },
+        {
+          h: "Potřebujete to i s logem města",
+          t: "Znak města i městské policie doplníme na každý produkt. Když máte logo jen jako obrázek, překreslíme ho do křivek.",
+        },
+      ].map((b) => (
+        <div class="odhal rounded-[var(--radius-karta)] bg-papir p-6">
+          <h3 class="text-lg font-bold text-policie-800">{b.h}</h3>
+          <p class="mt-2 text-sm text-inkoust/75">{b.t}</p>
+        </div>
+      ))}
+    </div>
+  </Sekce>
+
+  <!-- KATEGORIE -->
+  <Sekce
+    pozadi="papir"
+    stitek="Co nabízíme"
+    nadpis="Šest kategorií, jeden cíl: aby si dítě odneslo bezpečné návyky"
+  >
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {kategorie.map((k) => (
+        <KartaKategorie {...k} pocet={pocet(k.slug)} />
+      ))}
+    </div>
+    <div class="mt-8">
+      <a href={href("/produkty")} class="btn btn-vedlejsi">Celý přehled produktů</a>
+    </div>
+  </Sekce>
+
+  <!-- USP -->
+  <Sekce stitek="Proč právě my" nadpis="Nejen tiskneme – produkty i vymýšlíme">
+    <div class="grid items-center gap-10 md:grid-cols-2">
+      <Foto popis="Fotka z provozu: grafik u monitoru s návrhem omalovánek, vedle vytištěné archy a vzorky." pomer="4/3" />
+      <div class="prose-web">
+        <p>
+          Většina dodavatelů reklamních předmětů umí potisknout, co jim pošlete.
+          My máme vlastní grafiky a roky zkušeností z besed, takže víme, co u dětí
+          funguje a co ne. Klíčové tiskoviny a hry vyvíjíme sami a máme k nim
+          <strong>autorská práva</strong> – proto je nikde jinde nekoupíte.
+        </p>
+        <ul>
+          <li>Vlastní vývoj omalovánek, rébusníčků, pexes a stolních her</li>
+          <li>Ověřeno přímo na dětech ve školách a školkách</li>
+          <li>Termíny držíme – berte to jako součást ceny</li>
+          <li>Objednáte celoročně, ne jen v sezóně</li>
+        </ul>
+        <p>
+          <a href={href("/o-nas")}>Víc o tom, jak pracujeme →</a>
+        </p>
+      </div>
+    </div>
+  </Sekce>
+
+  <!-- ČÍSLA -->
+  <section class="bg-policie-800 py-14 text-white">
+    <div class="obal grid grid-cols-2 gap-8 text-center md:grid-cols-4">
+      {cisla.map((c) => (
+        <div>
+          <div class="font-nadpis text-3xl font-extrabold text-white md:text-4xl">{c.hodnota}</div>
+          <div class="mt-1 text-sm text-policie-200">{c.popis}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- DOPORUČUJEME -->
+  {doporucene.length > 0 && (
+    <Sekce pozadi="papir" stitek="Osvědčené" nadpis="S čím kolegové začínají nejčastěji">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {doporucene.map((p) => (
+          <a
+            href={href(`/produkt/${p.id}`)}
+            class="odhal group flex flex-col overflow-hidden rounded-[var(--radius-karta)] bg-white ring-1 ring-policie-100 transition-transform hover:-translate-y-1 hover:shadow-lg"
+          >
+            <Foto popis={p.data.fotoPopis} pomer="4/3" trida="!rounded-none !border-0" />
+            <div class="flex flex-1 flex-col p-5">
+              <h3 class="font-bold text-policie-800 group-hover:text-hasici-600">{p.data.nazev}</h3>
+              <p class="mt-1 flex-1 text-sm text-inkoust/70">{p.data.kratky}</p>
+              {p.data.cenaOd ? (
+                <p class="mt-3 font-nadpis text-sm font-bold text-inkoust">
+                  od {p.data.cenaOd} Kč / {p.data.jednotka}
+                </p>
+              ) : null}
+            </div>
+          </a>
+        ))}
+      </div>
+    </Sekce>
+  )}
+
+  <!-- JAK TO FUNGUJE -->
+  <Sekce stitek="Jak to probíhá" nadpis="Od poptávky k hotovým materiálům v pěti krocích">
+    <ol class="grid gap-6 md:grid-cols-5">
+      {kroky.map((k) => (
+        <li class="odhal rounded-[var(--radius-karta)] border-t-4 border-policie-600 bg-papir p-5">
+          <div class="font-nadpis text-2xl font-extrabold text-hasici-500">{k.cislo}</div>
+          <h3 class="mt-1 text-base font-bold text-policie-800">{k.nazev}</h3>
+          <p class="mt-1 text-sm text-inkoust/70">{k.text}</p>
+        </li>
+      ))}
+    </ol>
+    <div class="mt-8">
+      <a href={href("/jak-to-funguje")} class="btn btn-obrys">Podrobně o spolupráci a vzorcích</a>
+    </div>
+  </Sekce>
+
+  <!-- REFERENCE -->
+  <Sekce pozadi="papir" stitek="Zkušenosti" nadpis="Co říkají preventisté, kteří u nás objednali">
+    <div class="grid gap-6 md:grid-cols-3">
+      {reference.map((r) => (
+        <figure class="odhal flex flex-col rounded-[var(--radius-karta)] bg-white p-6 ring-1 ring-policie-100">
+          <blockquote class="flex-1 text-inkoust/85">„{r.text}"</blockquote>
+          <figcaption class="mt-4 text-sm">
+            <span class="font-nadpis font-bold text-policie-800">{r.kdo}</span><br />
+            <span class="text-inkoust/60">{r.mesto}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="mt-6 text-sm text-inkoust/60">
+      Reference jsou zatím anonymizované. Konkrétní města a jména doplníme po jejich souhlasu.
+    </p>
+  </Sekce>
+
+  <!-- FAQ -->
+  <Sekce stitek="Časté dotazy" nadpis="Na co se ptají nejčastěji">
+    <div class="max-w-3xl">
+      <Faq polozky={faq.slice(0, 5)} />
+      <div class="mt-6">
+        <a href={href("/faq")} class="btn btn-obrys">Všechny dotazy</a>
+      </div>
+    </div>
+  </Sekce>
+
+  <VyzvaKAkci />
+</Zaklad>

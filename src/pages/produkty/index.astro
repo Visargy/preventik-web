@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+import Zaklad from "../../layouts/Zaklad.astro";
+import HlavaStranky from "../../components/HlavaStranky.astro";
+import Sekce from "../../components/Sekce.astro";
+import Foto from "../../components/Foto.astro";
+import VyzvaKAkci from "../../components/VyzvaKAkci.astro";
+import { kategorie, href } from "../../lib/site";
+
+const vsechny = (await getCollection("produkty")).sort(
+  (a, b) => a.data.poradi - b.data.poradi,
+);
+---
+
+<Zaklad
+  titulek="Produkty"
+  popis="Kompletní přehled vzdělávacích tiskovin, her, reflexních prvků, odměn a předmětů pro městskou policii. Vše s možností potisku logem vašeho města."
+>
+  <HlavaStranky
+    stitek="Produkty"
+    nadpis="Vše pro preventivní program na jednom místě"
+    uvod="Šest kategorií. U každého produktu najdete orientační cenu, minimální množství a cenu vzorku. Konečná nabídka je vždy individuální podle zadání."
+  />
+
+  {kategorie.map((k) => {
+    const vk = vsechny.filter((p) => p.data.kategorie === k.slug);
+    return (
+      <Sekce stitek={`${vk.length} produktů`} nadpis={k.nazev} podnadpis={k.strucne}>
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {vk.map((p) => (
+            <a
+              href={href(`/produkt/${p.id}`)}
+              class="odhal group flex flex-col overflow-hidden rounded-[var(--radius-karta)] bg-white ring-1 ring-policie-100 transition-transform hover:-translate-y-1 hover:shadow-lg"
+            >
+              <Foto popis={p.data.fotoPopis} pomer="4/3" trida="!rounded-none !border-0" />
+              <div class="flex flex-1 flex-col p-5">
+                <div class="flex items-start gap-2">
+                  <h3 class="flex-1 font-bold text-policie-800 group-hover:text-hasici-600">
+                    {p.data.nazev}
+                  </h3>
+                  {p.data.novinka && (
+                    <span class="rounded-full bg-hasici-100 px-2 py-0.5 text-xs font-bold text-hasici-700">
+                      novinka
+                    </span>
+                  )}
+                </div>
+                <p class="mt-1 flex-1 text-sm text-inkoust/70">{p.data.kratky}</p>
+                <p class="mt-3 font-nadpis text-sm font-bold text-inkoust">
+                  {p.data.cenaOd
+                    ? `od ${p.data.cenaOd} Kč / ${p.data.jednotka}`
+                    : "cena podle zadání"}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="mt-6">
+          <a href={href(`/produkty/${k.slug}`)} class="btn btn-obrys">Jen {k.nazev.toLowerCase()}</a>
+        </div>
+      </Sekce>
+    );
+  })}
+
+  <VyzvaKAkci />
+</Zaklad>

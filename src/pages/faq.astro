@@ -1,0 +1,39 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import Faq from "../components/Faq.astro";
+import VyzvaKAkci from "../components/VyzvaKAkci.astro";
+import { faq } from "../lib/obsah";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((f) => ({
+    "@type": "Question",
+    name: f.otazka,
+    acceptedAnswer: { "@type": "Answer", text: f.odpoved },
+  })),
+};
+---
+
+<Zaklad
+  titulek="Časté dotazy"
+  popis="Odpovědi na nejčastější otázky preventistů: čím se lišíme od BESIPu, jak funguje vzorek, minimální množství, dodání do ČR i SK."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <HlavaStranky
+    stitek="FAQ"
+    nadpis="Časté dotazy"
+    uvod="Co nám preventisté píší nejčastěji. Nenašli jste odpověď? Zavolejte nebo napište na WhatsApp."
+  />
+
+  <Sekce>
+    <div class="max-w-3xl">
+      <Faq polozky={faq} />
+    </div>
+  </Sekce>
+
+  <VyzvaKAkci />
+</Zaklad>

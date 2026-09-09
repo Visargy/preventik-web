@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import Zaklad from "../../layouts/Zaklad.astro";
+import HlavaStranky from "../../components/HlavaStranky.astro";
+import Sekce from "../../components/Sekce.astro";
+import Foto from "../../components/Foto.astro";
+import VyzvaKAkci from "../../components/VyzvaKAkci.astro";
+import { kategorie, href } from "../../lib/site";
+
+export async function getStaticPaths() {
+  const vsechny = await getCollection("produkty");
+  return kategorie.map((k) => ({
+    params: { kategorie: k.slug },
+    props: {
+      kat: k,
+      produkty: vsechny
+        .filter((p) => p.data.kategorie === k.slug)
+        .sort((a, b) => a.data.poradi - b.data.poradi),
+    },
+  }));
+}
+
+const { kat, produkty } = Astro.props;
+---
+
+<Zaklad titulek={kat.nazev} popis={kat.strucne}>
+  <HlavaStranky stitek="Kategorie" nadpis={kat.nazev} uvod={kat.strucne} />
+
+  <Sekce>
+    <nav class="mb-10 flex flex-wrap gap-2" aria-label="Kategorie produktů">
+      {kategorie.map((k) => (
+        <a
+          href={href(`/produkty/${k.slug}`)}
+          aria-current={k.slug === kat.slug ? "page" : undefined}
+          class:list={[
+            "rounded-full px-4 py-2 font-nadpis text-sm font-semibold transition-colors",
+            k.slug === kat.slug
+              ? "bg-policie-700 text-white"
+              : "bg-papir text-policie-800 hover:bg-policie-100",
+          ]}
+        >
+          {k.nazev}
+        </a>
+      ))}
+    </nav>
+
+    <div class="grid gap-8 sm:grid-cols-2">
+      {produkty.map((p) => (
+        <article class="odhal flex flex-col overflow-hidden rounded-[var(--radius-karta)] bg-white ring-1 ring-policie-100">
+          <Foto popis={p.data.fotoPopis} pomer="16/10" trida="!rounded-none !border-0" />
+          <div class="flex flex-1 flex-col p-6">
+            <div class="flex items-start gap-2">
+              <h2 class="flex-1 text-xl font-bold text-policie-800">{p.data.nazev}</h2>
+              {p.data.novinka && (
+                <span class="rounded-full bg-hasici-100 px-2 py-0.5 text-xs font-bold text-hasici-700">novinka</span>
+              )}
+            </div>
+            <p class="mt-2 flex-1 text-sm text-inkoust/75">{p.data.kratky}</p>
+            <dl class="mt-4 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+              <dt class="text-inkoust/55">Cena</dt>
+              <dd class="font-semibold">
+                {p.data.cenaOd ? `od ${p.data.cenaOd} Kč / ${p.data.jednotka}` : "dle zadání"}
+              </dd>
+              {p.data.minMnozstvi && (<><dt class="text-inkoust/55">Min. množství</dt><dd class="font-semibold">{p.data.minMnozstvi} {p.data.jednotka}</dd></>)}
+              {p.data.vzorekCena && (<><dt class="text-inkoust/55">Vzorek</dt><dd class="font-semibold">{p.data.vzorekCena} Kč</dd></>)}
+            </dl>
+            <div class="mt-5 flex gap-2">
+              <a href={href(`/produkt/${p.id}`)} class="btn btn-obrys !px-4 !py-2 text-sm">Detail</a>
+              <a href={href(`/poptavka?produkt=${encodeURIComponent(p.data.nazev)}`)} class="btn btn-hlavni !px-4 !py-2 text-sm">Poptat</a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </Sekce>
+
+  <VyzvaKAkci />
+</Zaklad>

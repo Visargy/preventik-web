@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /
+
+# Docasny nahled na GitHub Pages. Po spusteni na preventik.cz povolit indexaci.

@@ -1,0 +1,56 @@
+---
+import Zaklad from "../layouts/Zaklad.astro";
+import HlavaStranky from "../components/HlavaStranky.astro";
+import Sekce from "../components/Sekce.astro";
+import { firma } from "../lib/site";
+---
+
+<Zaklad
+  titulek="Obchodní podmínky"
+  popis="Podmínky pro poptávky, vzorky a zakázkovou výrobu vzdělávacích a reklamních předmětů."
+>
+  <HlavaStranky stitek="Právní informace" nadpis="Obchodní podmínky" />
+
+  <Sekce>
+    <div class="prose-web max-w-2xl">
+      <p class="rounded-[var(--radius-karta)] bg-papir p-4 text-sm">
+        <strong>Pracovní verze pro náhled webu.</strong> Před spuštěním doplní
+        provozovatel podle skutečného rozsahu služeb (samotná poptávka vs. e‑shop).
+      </p>
+
+      <h2>1. Provozovatel</h2>
+      <p>{firma.provozovatel}, IČO {firma.ico}, {firma.adresa}.</p>
+
+      <h2>2. Poptávka a nabídka</h2>
+      <p>
+        Odeslání poptávky je nezávazné. Na jejím základě zašleme cenovou nabídku
+        s termínem. Smlouva vzniká potvrzením nabídky oběma stranami.
+      </p>
+
+      <h2>3. Vzorky</h2>
+      <p>
+        Vzorek je zpoplatněn cenou uvedenou u produktu. Při následné objednávce
+        stejného produktu se cena vzorku odečítá z celkové ceny.
+      </p>
+
+      <h2>4. Grafické podklady a autorská práva</h2>
+      <p>
+        Zákazník odpovídá za oprávnění užít dodané logo a údaje. Vlastní produkty
+        {firma.provozovatel} (tiskoviny, hry, ilustrace) jsou chráněny autorským
+        právem; objednávka neopravňuje k jejich rozmnožování mimo dohodnutý náklad.
+      </p>
+
+      <h2>5. Dodání a platba</h2>
+      <p>
+        Termín dodání je uveden v potvrzené nabídce. Platba probíhá na fakturu se
+        splatností, u první zakázky případně zálohově.
+      </p>
+
+      <h2>6. Reklamace</h2>
+      <p>
+        Zjevné vady je třeba uplatnit do 14 dnů od převzetí. Zakázková výroba s
+        individuálním potiskem se nevrací bez udání důvodu.
+      </p>
+    </div>
+  </Sekce>
+</Zaklad>

@@ -1,0 +1,101 @@
+---
+import { firma, hlavniMenu, href } from "../lib/site";
+const zdePath = Astro.url.pathname.replace(/\/$/, "");
+const aktivni = (odkaz: string) => {
+  const cil = href(odkaz).replace(/\/$/, "");
+  return zdePath === cil || (odkaz !== "/" && zdePath.startsWith(cil));
+};
+---
+<header
+  id="hlavicka"
+  class="sticky top-0 z-40 border-b border-policie-100 bg-white/95 backdrop-blur"
+>
+  <div class="obal flex items-center justify-between gap-4 py-3">
+    <a href={href("/")} class="flex items-center gap-2" aria-label={`${firma.znacka} – domů`}>
+      <span
+        class="inline-block h-8 w-8 rounded-lg bg-policie-700"
+        style="background-image:linear-gradient(135deg,var(--color-policie-600),var(--color-hasici-500));"
+      ></span>
+      <span class="font-nadpis text-xl font-extrabold text-policie-800">
+        preventik<span class="text-hasici-500">.cz</span>
+      </span>
+    </a>
+
+    <nav aria-label="Hlavní" class="hidden items-center gap-1 lg:flex">
+      {
+        hlavniMenu.map((p) => (
+          <a
+            href={href(p.odkaz)}
+            aria-current={aktivni(p.odkaz) ? "page" : undefined}
+            class:list={[
+              "rounded-full px-3 py-2 font-nadpis text-[0.95rem] font-semibold transition-colors",
+              aktivni(p.odkaz)
+                ? "bg-policie-50 text-policie-800"
+                : "text-inkoust hover:bg-policie-50 hover:text-policie-800",
+            ]}
+          >
+            {p.text}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a
+        href={firma.telefonHref}
+        class="hidden font-nadpis text-sm font-bold text-policie-800 hover:text-hasici-600 sm:inline"
+      >
+        {firma.telefon}
+      </a>
+      <a href={href("/poptavka")} class="btn btn-hlavni !px-4 !py-2 text-sm">
+        Nezávazná poptávka
+      </a>
+      <button
+        id="mobil-prepinac"
+        class="rounded-lg border border-policie-200 p-2 lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobil-menu"
+        aria-label="Otevřít menu"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobil-menu"
+    aria-label="Mobilní"
+    hidden
+    class="border-t border-policie-100 bg-white lg:hidden"
+  >
+    <div class="obal flex flex-col py-2">
+      {
+        hlavniMenu.map((p) => (
+          <a
+            href={href(p.odkaz)}
+            class="rounded-lg px-3 py-3 font-nadpis font-semibold text-policie-800 hover:bg-policie-50"
+          >
+            {p.text}
+          </a>
+        ))
+      }
+      <a href={firma.whatsappHref} class="rounded-lg px-3 py-3 font-nadpis font-semibold text-hasici-600">
+        Napsat na WhatsApp
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById("mobil-prepinac");
+  const menu = document.getElementById("mobil-menu");
+  btn?.addEventListener("click", () => {
+    const otevreno = menu?.hasAttribute("hidden");
+    if (otevreno) menu?.removeAttribute("hidden");
+    else menu?.setAttribute("hidden", "");
+    btn.setAttribute("aria-expanded", String(!!otevreno));
+    btn.setAttribute("aria-label", otevreno ? "Zavřít menu" : "Otevřít menu");
+  });
+</script>
