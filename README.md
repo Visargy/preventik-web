@@ -28,8 +28,8 @@ npm run preview
 
 Push do `main` → GitHub Actions (`.github/workflows/deploy.yml`) → GitHub Pages.
 
-Adresa náhledu: _doplní se po vytvoření repozitáře_
-(`https://<uživatel>.github.io/<repo>/`).
+**Náhled pro klienta:** <https://visargy.github.io/preventik-web/>
+Repozitář: <https://github.com/Visargy/preventik-web> (veřejný – nutné pro Pages na Free plánu).
 
 `site` a `base` se pro Pages nastavují automaticky z proměnných `SITE_URL` / `BASE_PATH`
 v CI. Lokálně platí výchozí `/preventik`.

@@ -35,9 +35,11 @@ npm run preview  # náhled produkčního buildu
 
 1. `git push` do `main`.
 2. GitHub Actions (`.github/workflows/deploy.yml`) spustí `npm run build` a nasadí `dist/` na GitHub Pages.
-3. Náhled: `https://<uživatel>.github.io/<repo>/` (přesná adresa v README po vytvoření repa).
+3. Náhled: <https://visargy.github.io/preventik-web/>
 
-> Pozn.: GitHub Pages ze **soukromého** repa vyžaduje placený GitHub plán. Pokud je účet Free, repo se pro náhled přepne na veřejné (obsahuje jen placeholder obsah, žádné citlivé údaje), nebo se náhled řeší přes Claude Artifact.
+> Pozn.: Účet je GitHub Free, ten neumí Pages ze soukromého repa – proto je
+> `Visargy/preventik-web` **veřejný**. Obsahuje jen placeholder obsah, žádné
+> citlivé údaje. Deploy běží přes `.github/workflows/deploy.yml` (Node 22).
 
 ## Připomínky klienta
 
